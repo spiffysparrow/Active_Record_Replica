@@ -66,6 +66,7 @@ module Associatable
   # Phase IIIb
   def belongs_to(name, options = {})
     options = BelongsToOptions.new(name.to_s, options)
+    assoc_options(name, options)
     define_method( name.to_sym ) do
       foreign_key_val = send( options.foreign_key )
       return_class = options.model_class
@@ -77,19 +78,18 @@ module Associatable
 
   def has_many(name, options = {})
     options = HasManyOptions.new(name.to_s, self.to_s, options)
+    assoc_options(name, options)
     define_method( name.to_sym ) do
       return_class = options.model_class
-      p "-----------"
-      p self
-      p name
-      p options
-      p "WHERE #{options.foreign_key}, #{id}"
-      owener_objects = return_class.where(options.foreign_key id)
+      owener_objects = return_class.where(options.foreign_key => id)
       owener_objects
     end
   end
 
-  def assoc_options
+  def assoc_options(key = nil, value = nil)
+    @assoc_options = Hash.new unless @assoc_options
+    @assoc_options[name] = value if key
+    @assoc_options
     # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
   end
 end

@@ -86,9 +86,9 @@ module Associatable
     end
   end
 
-  def assoc_options(key = nil, value = nil)
+  def assoc_options(name = nil, options = nil)
     @assoc_options = Hash.new unless @assoc_options
-    @assoc_options[name] = value if key
+    @assoc_options[name] = options if name
     @assoc_options
     # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
   end
